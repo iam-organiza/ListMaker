@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.raywenderlich.listmaker.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.raywenderlich.listmaker.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
+    private lateinit var binding: MainFragmentBinding
 
     companion object {
         fun newInstance() = MainFragment()
@@ -21,12 +23,17 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        binding = MainFragmentBinding.inflate(inflater, container, false)
+
+        binding.listsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
+        binding.listsRecyclerview.adapter = ListSelectionRecyclerViewAdapter()
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         // TODO: Use the ViewModel
     }
 }
